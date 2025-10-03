@@ -1,0 +1,34 @@
+name = "light_esp32s3_demo"
+description = "ESP32S3 light runtime demo"
+version = "0.1.0-dev"
+
+authors = ["Vadim Godunko"]
+maintainers = ["Vadim Godunko <vgodunko@gmail.com>"]
+maintainers-logins = ["godunko"]
+licenses = "Apache-2.0 WITH LLVM-exception"
+tags = ["embedded"]
+
+[configuration]
+generate_ada = false
+generate_c = false
+generate_gpr = true
+
+[environment]
+#A0B_TOOLS_SVD.set = "esp32s3.svd"
+
+[[actions]]
+type = "pre-build"
+command = ["a0b-runtime", "--bb-runtimes=../../bb-runtimes-15/", "--svd=esp32s3.svd", "--no-startup"]
+[[actions]]
+type = "pre-build"
+command = ["gprbuild", "-j0", "-m", "runtime/build_runtime.gpr"]
+
+[[depends-on]]
+a0b_base = "*"
+a0b_tools = "*"
+gnat_xtensa_esp32_elf = "^15"
+xtensa_dynconfig = "*"
+
+[[pins]]
+a0b_tools = { path='../../a0b-tools' }
+xtensa_dynconfig = { path='../../xtensa-dynconfig' }
