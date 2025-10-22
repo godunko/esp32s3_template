@@ -4,6 +4,8 @@ pragma Ada_2022;
 with A0B.Types;
 with Ada.Text_IO;
 
+with Interrupts;
+
 procedure Main is
    use type A0B.Types.Unsigned_32;
 
