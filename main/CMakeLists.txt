@@ -19,7 +19,7 @@ set_target_properties(liblight_esp32_demo PROPERTIES IMPORTED_LOCATION
 
 target_link_libraries(
     ${COMPONENT_LIB} INTERFACE liblight_esp32_demo
-     "-lgnat" "-L${COMPONENT_DIR}/runtime/lib")
+     "-lgnat" "-lgnarl" "-lgnat" "-L${COMPONENT_DIR}/runtime/lib")
 
 set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES
      "${COMPONENT_DIR}/.libs/liblight_esp32_demo.a")

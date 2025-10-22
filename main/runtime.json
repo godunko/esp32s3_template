@@ -10,7 +10,9 @@
     {
       "restrictions":
       {
-        "No_Finalization": true
+        "No_Finalization": true,
+        //  "No_Exception_Propagation": true,   // Not supported by RTG
+        //  "No_Exception_Registration": true,  //  Not supported by RTG
       }
     },
     "files":
@@ -18,8 +20,39 @@
       "a-textio.adb": { "crate": "bb_runtimes", "path": "gnat_rts_sources/include/rts-sources/system_io/a-textio.adb" },
       "s-atopri.ads": { "crate": "bb_runtimes", "path": "gnat_rts_sources/include/rts-sources/atomics/32/s-atopri.ads" },
       "s-macres.adb": { "path": "source/runtime/s-macres.adb" },
-      "s-textio.adb": { "path": "source/runtime/s-textio.adb" }
-    }
+      "s-textio.adb": { "path": "source/runtime/s-textio.adb" },
+
+      //  Custom tasking bootstrap
+      "a-except.adb": { "crate": "bb_runtimes", "path": "gnat_rts_sources/include/rts-sources/light/exceptions/a-except.adb" },
+      "a-except.ads": { "crate": "bb_runtimes", "path": "gnat_rts_sources/include/rts-sources/light/exceptions/a-except.ads" },
+      "a-elchha.adb": { "crate": "bb_runtimes", "path": "gnat_rts_sources/include/rts-sources/light/a-elchha.adb" },
+      "a-elchha.ads": { "crate": "bb_runtimes", "path": "gnat_rts_sources/include/rts-sources/light/exceptions/a-elchha.ads" },
+      "a-strsup.adb": { "crate": "bb_runtimes", "path": "gnat_rts_sources/include/rts-sources/light/a-strsup.adb" },
+      "a-strsup.ads": { "crate": "bb_runtimes", "path": "gnat_rts_sources/include/rts-sources/light/a-strsup.ads" },
+      "s-assert.adb": { "crate": "bb_runtimes", "path": "gnat_rts_sources/include/rts-sources/light/s-assert.adb" },
+      "s-assert.ads": { "crate": "bb_runtimes", "path": "gnat_rts_sources/include/rts-sources/common/s-assert.ads" },
+      "s-parame.adb": { "crate": "bb_runtimes", "path": "gnat_rts_sources/include/rts-sources/gnat/parameters/small/s-parame.adb" },
+      "s-parame.ads": { "crate": "bb_runtimes", "path": "gnat_rts_sources/include/rts-sources/gnat/parameters/small/s-parame.ads" },
+      "s-secsta.adb": { "crate": "bb_runtimes", "path": "gnat_rts_sources/include/rts-sources/secondary_stack/symbol/s-secsta.adb" },
+      "s-secsta.ads": { "crate": "bb_runtimes", "path": "gnat_rts_sources/include/rts-sources/secondary_stack/symbol/s-secsta.ads" },
+    },
+  },
+
+  "tasking":
+  {
+    "kernel": "custom",
+    "files":
+    {
+      "a-interr.adb": { "path": "source/runtime/a-interr.adb" },
+      "a-interr.ads": { "path": "source/runtime/a-interr.ads" },
+      "s-interr.adb": { "path": "source/runtime/s-interr.adb" },
+      "s-interr.ads": { "path": "source/runtime/s-interr.ads" },
+      "s-osinte.ads": { "path": "source/runtime/s-osinte.ads" },
+      "s-taprob.adb": { "path": "source/runtime/s-taprob.adb" },
+      "s-taprob.ads": { "path": "source/runtime/s-taprob.ads" },
+      "s-taskin.adb": { "path": "source/runtime/s-taskin.adb" },
+      "s-taskin.ads": { "path": "source/runtime/s-taskin.ads" },
+    },
   },
 
   "scenarios":
