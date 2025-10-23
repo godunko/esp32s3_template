@@ -64,9 +64,9 @@ package System.Tasking is
 --     -- Task_Id related definitions --
 --     ---------------------------------
 
---     type Ada_Task_Control_Block;
+   type Ada_Task_Control_Block;
 
---     type Task_Id is access all Ada_Task_Control_Block;
+   type Task_Id is access all Ada_Task_Control_Block;
 
 --     function To_Task_Id is
 --        new Ada.Unchecked_Conversion
@@ -170,28 +170,28 @@ package System.Tasking is
 --     pragma Unreferenced
 --       (Simple_Call, Conditional_Call, Asynchronous_Call, Timed_Call);
 
---     -------------------------------
---     -- Entry related definitions --
---     -------------------------------
+   -------------------------------
+   -- Entry related definitions --
+   -------------------------------
 
---     --  These need comments ???
+   --  These need comments ???
 
---     Null_Entry : constant := 0;
+   Null_Entry : constant := 0;
 
---     Max_Entry : constant := Integer'Last;
+   Max_Entry : constant := Integer'Last;
 
---     Interrupt_Entry : constant := -2;
+   Interrupt_Entry : constant := -2;
 
---     Cancelled_Entry : constant := -1;
+   --  Cancelled_Entry : constant := -1;
 
---     type Entry_Index is range Interrupt_Entry .. Max_Entry;
+   type Entry_Index is range Interrupt_Entry .. Max_Entry;
 
---     Null_Task_Entry : constant := Null_Entry;
+   Null_Task_Entry : constant := Null_Entry;
 
---     Max_Task_Entry : constant := Max_Entry;
+   Max_Task_Entry : constant := Max_Entry;
 
---     type Task_Entry_Index is new Entry_Index
---       range Null_Task_Entry .. Max_Task_Entry;
+   type Task_Entry_Index is new Entry_Index
+     range Null_Task_Entry .. Max_Task_Entry;
 
 --     type Entry_Call_Record;
 
@@ -253,13 +253,13 @@ package System.Tasking is
 --       Integer range Idle_Priority .. Any_Priority'Last;
 --     --  Priority range that also includes the idle priority
 
---     type Activation_Chain is limited private;
+   type Activation_Chain is limited private;
 
---     type Activation_Chain_Access is access all Activation_Chain;
+   type Activation_Chain_Access is access all Activation_Chain;
 
---     type Task_Procedure_Access is access procedure (Arg : System.Address);
+   type Task_Procedure_Access is access procedure (Arg : System.Address);
 
---     type Access_Boolean is access all Boolean;
+   type Access_Boolean is access all Boolean;
 
 --     ----------------------------------------------
 --     -- Ada_Task_Control_Block (ATCB) definition --
@@ -380,18 +380,19 @@ package System.Tasking is
 --     end record;
 --     pragma Suppress_Initialization (Common_ATCB);
 
---     type Ada_Task_Control_Block (Entry_Num : Task_Entry_Index) is record
---     --  The discriminant Entry_Num is not needed, but we keep it here for
---     --  compatibility reasons with the rest of the run times, so that the
---     --  expander does not need to know which run time is being used.
+   type Ada_Task_Control_Block (Entry_Num : Task_Entry_Index) is record
+   --  The discriminant Entry_Num is not needed, but we keep it here for
+   --  compatibility reasons with the rest of the run times, so that the
+   --  expander does not need to know which run time is being used.
 
+      null;
 --        Common : Common_ATCB;
 
 --        Entry_Call : aliased Entry_Call_Record;
 --        --  Protection: This field is used on entry call queues associated with
 --        --  protected objects, and is protected by the protected object lock.
---     end record;
---     pragma Suppress_Initialization (Ada_Task_Control_Block);
+   end record;
+   pragma Suppress_Initialization (Ada_Task_Control_Block);
 
    ----------------------------------
    -- Secondary Stack Manipulation --
@@ -402,9 +403,9 @@ package System.Tasking is
    --  Return the address of the task-specific secondary stack, as expected by
    --  System.Secondary_Stack.
 
---     ----------------------------------------
---     -- Task size, priority, affinity info --
---     ----------------------------------------
+   ----------------------------------------
+   -- Task size, priority, affinity info --
+   ----------------------------------------
 
 --     function Storage_Size (T : Task_Id) return System.Parameters.Size_Type;
 --     --  Retrieve from the TCB of the task the allocated size of its stack,
@@ -412,11 +413,11 @@ package System.Tasking is
 --     --  is in general a non-static value that can depend on discriminants
 --     --  of the task.
 
---     Unspecified_Priority : constant := -1;
---     --  No specified priority. This value is also hard-coded in gnatbind.
+   Unspecified_Priority : constant := -1;
+   --  No specified priority. This value is also hard-coded in gnatbind.
 
---     Unspecified_CPU : constant := -1;
---     --  No affinity specified
+   Unspecified_CPU : constant := -1;
+   --  No affinity specified
 
 --     --------------------
 --     -- Initialization --
@@ -447,9 +448,10 @@ package System.Tasking is
 
 private
 
---     type Activation_Chain is limited record
+   type Activation_Chain is limited record
+      null;
 --        T_ID : Task_Id;
 --        --  Null terminated simply linked list of tasks
---     end record;
+   end record;
 
 end System.Tasking;

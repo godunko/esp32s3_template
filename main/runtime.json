@@ -50,8 +50,13 @@
       "s-osinte.ads": { "path": "source/runtime/s-osinte.ads" },
       "s-taprob.adb": { "path": "source/runtime/s-taprob.adb" },
       "s-taprob.ads": { "path": "source/runtime/s-taprob.ads" },
+      "s-tarest.adb": { "path": "source/runtime/s-tarest.adb" },
+      "s-tarest.ads": { "path": "source/runtime/s-tarest.ads" },
+      "s-tasinf.adb": { "path": "source/runtime/s-tasinf.adb" },
+      "s-tasinf.ads": { "path": "source/runtime/s-tasinf.ads" },
       "s-taskin.adb": { "path": "source/runtime/s-taskin.adb" },
       "s-taskin.ads": { "path": "source/runtime/s-taskin.ads" },
+      "s-tasres.ads": { "path": "source/runtime/s-tasres.ads" },
     },
   },
 

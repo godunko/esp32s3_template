@@ -5,6 +5,7 @@ with A0B.Types;
 with Ada.Text_IO;
 
 with Interrupts;
+with Tasks;
 
 procedure Main is
    use type A0B.Types.Unsigned_32;
