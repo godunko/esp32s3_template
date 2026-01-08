@@ -15,7 +15,7 @@ library project Light_ESP32S3_Demo is
    end Binder;
 
    package Compiler is
-      for Switches ("Ada") use ("-g", "-O2");
+      for Switches ("Ada") use ("-g", "-O2", "-gnatef");
    end Compiler;
 
 end Light_ESP32S3_Demo;
