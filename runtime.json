@@ -28,7 +28,7 @@
     "Has_Compare_And_Swap": "yes",
     "Has_CHERI": "no",
     "Certifiable_Packages": "yes",
-    "Has_libc": "no",
+    "Has_libc": "yes",
     "Memory_Profile": "small",
     "Text_IO": "serial",
 
