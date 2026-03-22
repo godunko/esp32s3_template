@@ -4,7 +4,12 @@
     {
       "type": "gdbtarget",
       "request": "attach",
-      "name": "Eclipse CDT GDB Adapter"
+      "name": "Eclipse CDT GDB Adapter",
+      "initCommands": [
+        "monitor reset halt",
+        "hbreak __gnat_last_chance_handler",
+        "hbreak _ada_main"
+      ]
     },
     {
       "type": "espidf",
