@@ -1,5 +1,5 @@
-name = "light_esp32s3_demo"
-description = "ESP32S3 light runtime demo"
+name = "esp32s3_application"
+description = "ESP32S3 Application Template"
 version = "0.2.0-dev"
 
 authors = ["Vadim Godunko"]

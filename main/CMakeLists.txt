@@ -1,7 +1,7 @@
 idf_component_register(
     REQUIRES)
 
-ExternalProject_Add(adademo_build
+ExternalProject_Add(adaapplication_build
     PREFIX ${COMPONENT_DIR}
     SOURCE_DIR ${COMPONENT_DIR}
     BUILD_IN_SOURCE 1
@@ -9,15 +9,15 @@ ExternalProject_Add(adademo_build
     CONFIGURE_COMMAND ""
     BUILD_COMMAND  alr build
     INSTALL_COMMAND ""
-    BUILD_BYPRODUCTS ${COMPONENT_DIR}/../.libs/liblight_esp32_demo.a
+    BUILD_BYPRODUCTS ${COMPONENT_DIR}/../.libs/libadaapplication.a
 )
 
-add_prebuilt_library(liblight_esp32_demo "${COMPONENT_LIB}"
+add_prebuilt_library(libadaapplication "${COMPONENT_LIB}"
     REQUIRES)
-add_dependencies(liblight_esp32_demo adademo_build)
+add_dependencies(libadaapplication adaapplication_build)
 
-set_target_properties(liblight_esp32_demo PROPERTIES IMPORTED_LOCATION
-    ${COMPONENT_DIR}/../.libs/liblight_esp32_demo.a)
+set_target_properties(libadaapplication PROPERTIES IMPORTED_LOCATION
+    ${COMPONENT_DIR}/../.libs/libadaapplication.a)
 
 target_link_libraries(
-    ${COMPONENT_LIB} INTERFACE liblight_esp32_demo)
+    ${COMPONENT_LIB} INTERFACE libadaapplication)
