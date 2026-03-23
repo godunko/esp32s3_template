@@ -18,7 +18,7 @@ library project ESP32S3_Application is
    end Binder;
 
    package Compiler is
-      for Switches ("Ada") use ("-g", "-O2", "-gnatef");
+      for Switches ("Ada") use ("-g", "-O2");
    end Compiler;
 
 end ESP32S3_Application;
