@@ -4,10 +4,8 @@
 
   "runtime":
   {
-    "common_required_switches": [
-      "-mlongcalls",
-//      "-gnatef",  //  Full source path in brief error messages and JSON output, to improve VS Code UX
-    ],
+    "languages": ["ada", "c"],
+    "common_required_switches": ["-mlongcalls"],
     "linker_required_switches": ["-nostartfiles", "-nolibc"],
     "system":
     {
