@@ -32,12 +32,12 @@
 --  This is a Ravenscar bare board version of this body. Tasking version of
 --  these functions are always used.
 
---  with System.Tasking;
---  with System.Task_Primitives.Operations;
+with System.Tasking;
+with System.Task_Primitives.Operations;
 
 package body System.Soft_Links is
 
---   use System.Task_Primitives.Operations;
+   use System.Task_Primitives.Operations;
 --   use type System.Tasking.Termination_Handler;
 --
 --   ----------------
@@ -54,9 +54,7 @@ package body System.Soft_Links is
 
    function Get_Current_Excep_Soft return EOA is
    begin
-      raise Program_Error;
-      return null;
---      return Self.Common.Compiler_Data.Current_Excep'Access;
+      return Self.Common.Compiler_Data.Current_Excep'Access;
    end Get_Current_Excep_Soft;
 
 --   ------------------------
@@ -138,14 +136,14 @@ package body System.Soft_Links is
    --------------------
 
    procedure Task_Lock_Soft is
---      Self_Id : constant System.Tasking.Task_Id := Self;
---
+      Self_Id : constant System.Tasking.Task_Id := Self;
+
    begin
-      raise Program_Error;
---      Self_Id.Common.Global_Task_Lock_Nesting :=
---        Self_Id.Common.Global_Task_Lock_Nesting + 1;
---
---      if Self_Id.Common.Global_Task_Lock_Nesting = 1 then
+      Self_Id.Common.Global_Task_Lock_Nesting :=
+        Self_Id.Common.Global_Task_Lock_Nesting + 1;
+
+      if Self_Id.Common.Global_Task_Lock_Nesting = 1 then
+         null;
 --         declare
 --            Prio : constant System.Any_Priority := Get_Priority (Self_Id);
 --
@@ -159,7 +157,7 @@ package body System.Soft_Links is
 --
 --            Caller_Priority := Prio;
 --         end;
---      end if;
+      end if;
    end Task_Lock_Soft;
 
    ---------------------------
@@ -197,21 +195,21 @@ package body System.Soft_Links is
    ----------------------
 
    procedure Task_Unlock_Soft is
---      Self_Id : constant System.Tasking.Task_Id := Self;
---
+      Self_Id : constant System.Tasking.Task_Id := Self;
+
    begin
-      raise Program_Error;
---      pragma Assert (Self_Id.Common.Global_Task_Lock_Nesting > 0);
---
---      Self_Id.Common.Global_Task_Lock_Nesting :=
---        Self_Id.Common.Global_Task_Lock_Nesting - 1;
---
---      if Self_Id.Common.Global_Task_Lock_Nesting = 0 then
---
+      pragma Assert (Self_Id.Common.Global_Task_Lock_Nesting > 0);
+
+      Self_Id.Common.Global_Task_Lock_Nesting :=
+        Self_Id.Common.Global_Task_Lock_Nesting - 1;
+
+      if Self_Id.Common.Global_Task_Lock_Nesting = 0 then
+         null;
+
 --         --  Restore the task's active priority
 --
 --         Set_Priority (Self_Id, Caller_Priority);
---      end if;
+      end if;
    end Task_Unlock_Soft;
 
 end System.Soft_Links;

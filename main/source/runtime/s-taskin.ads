@@ -45,14 +45,14 @@ pragma Restrictions (No_Elaboration_Code);
 --  to 0, still. We expect this to be achieved by startup code clearing the
 --  bss section.
 
---  with Ada.Exceptions;
+with Ada.Exceptions;
 --  with Ada.Unchecked_Conversion;
---
---  with System.Multiprocessors;
---  with System.Parameters;
+
+with System.Multiprocessors;
+with System.Parameters;
 with System.Secondary_Stack;
 --  with System.Storage_Elements;
---  with System.Task_Info;
+with System.Task_Info;
 --  with System.Task_Primitives;
 
 package System.Tasking is
@@ -239,24 +239,24 @@ package System.Tasking is
 --   Fall_Back_Handler : Termination_Handler;
 --   --  This is the fall-back handler that applies to all the tasks in the
 --   --  partition (this is only for Ravenscar-compliant systems).
---
---   ------------------------------------
---   -- Other Task-Related Definitions --
---   ------------------------------------
---
---   Idle_Priority : constant Integer := Any_Priority'First - 1;
---   --  A priority lower than any user priority. Used by the idle task
---
---   subtype Extended_Priority is
---     Integer range Idle_Priority .. Any_Priority'Last;
---   --  Priority range that also includes the idle priority
---
+
+   ------------------------------------
+   -- Other Task-Related Definitions --
+   ------------------------------------
+
+   Idle_Priority : constant Integer := Any_Priority'First - 1;
+   --  A priority lower than any user priority. Used by the idle task
+
+   subtype Extended_Priority is
+     Integer range Idle_Priority .. Any_Priority'Last;
+   --  Priority range that also includes the idle priority
+
 --   type Activation_Chain is limited private;
 --
 --   type Activation_Chain_Access is access all Activation_Chain;
---
---   type Task_Procedure_Access is access procedure (Arg : System.Address);
---
+
+   type Task_Procedure_Access is access procedure (Arg : System.Address);
+
 --   type Access_Boolean is access all Boolean;
 --
 --   ----------------------------------------------
@@ -295,11 +295,11 @@ package System.Tasking is
       Sec_Stack_Ptr : System.Secondary_Stack.SS_Stack_Ptr;
       --  Pointer of currently allocated secondary stack
 
---      Current_Excep : aliased Ada.Exceptions.Exception_Occurrence;
---      --  Exception occurrence that contains the information for the current
---      --  exception. Note that any exception in the same task destroys this
---      --  information, so the data in this variable must be copied out before
---      --  another exception can occur.
+      Current_Excep : aliased Ada.Exceptions.Exception_Occurrence;
+      --  Exception occurrence that contains the information for the current
+      --  exception. Note that any exception in the same task destroys this
+      --  information, so the data in this variable must be copied out before
+      --  another exception can occur.
    end record;
    pragma Suppress_Initialization (TSD);
 
@@ -365,15 +365,15 @@ package System.Tasking is
 --      Task_Info : System.Task_Info.Task_Info_Type;
 --      --  System-specific attributes of the task as specified by the
 --      --  Task_Info pragma.
---
---      Global_Task_Lock_Nesting : Natural := 0;
---      --  This is the current nesting level of calls to
---      --  System.Tasking.Initialization.Lock_Task. This allows a task to call
---      --  Lock_Task multiple times without deadlocking. A task only locks
+
+      Global_Task_Lock_Nesting : Natural := 0;
+      --  This is the current nesting level of calls to
+      --  System.Tasking.Initialization.Lock_Task. This allows a task to call
+      --  Lock_Task multiple times without deadlocking. A task only locks
       --  Global_Task_Lock when its Global_Task_Lock_Nesting goes from 0 to 1,
---      --  and only unlocked when it goes from 1 to 0.
---      --
---      --  Protection: Only accessed by Self
+      --  and only unlocked when it goes from 1 to 0.
+      --
+      --  Protection: Only accessed by Self
    end record;
    pragma Suppress_Initialization (Common_ATCB);
 
@@ -429,18 +429,18 @@ package System.Tasking is
    --  optimized PO and the restricted run time) since one cannot rely on
    --  System.Tasking.Initialization being present, as was done before.
 
---   procedure Initialize_ATCB
---     (Task_Entry_Point     : Task_Procedure_Access;
---      Task_Arg             : System.Address;
---      Base_Priority        : Extended_Priority;
---      Base_CPU             : System.Multiprocessors.CPU_Range;
---      Task_Info            : System.Task_Info.Task_Info_Type;
---      Stack_Address        : System.Address;
---      Stack_Size           : System.Parameters.Size_Type;
---      T                    : Task_Id;
---      Success              : out Boolean);
---   --  Initialize fields of a TCB and link into global TCB structures
---   --  Call this only with abort deferred and holding All_Tasks_L.
+   procedure Initialize_ATCB
+     (Task_Entry_Point     : Task_Procedure_Access;
+      Task_Arg             : System.Address;
+      Base_Priority        : Extended_Priority;
+      Base_CPU             : System.Multiprocessors.CPU_Range;
+      Task_Info            : System.Task_Info.Task_Info_Type;
+      Stack_Address        : System.Address;
+      Stack_Size           : System.Parameters.Size_Type;
+      T                    : Task_Id;
+      Success              : out Boolean);
+   --  Initialize fields of a TCB and link into global TCB structures
+   --  Call this only with abort deferred and holding All_Tasks_L.
 
 private
 

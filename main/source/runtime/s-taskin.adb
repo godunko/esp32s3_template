@@ -36,11 +36,12 @@ pragma Restrictions (No_Elaboration_Code);
 --  For Ravenscar/full, this restriction is required because the Initialize
 --  procedure is called by s-init before the elaboration.
 
+--  with System.Secondary_Stack;
 with System.Task_Primitives.Operations;
 
 package body System.Tasking is
 
---   use System.Multiprocessors;
+   use System.Multiprocessors;
    use System.Secondary_Stack;
 
    ------------------------
@@ -72,22 +73,23 @@ package body System.Tasking is
       return Self.Common.Compiler_Data.Sec_Stack_Ptr;
    end Get_Sec_Stack;
 
---   ---------------------
---   -- Initialize_ATCB --
---   ---------------------
---
---   procedure Initialize_ATCB
---     (Task_Entry_Point     : Task_Procedure_Access;
---      Task_Arg             : System.Address;
---      Base_Priority        : Extended_Priority;
---      Base_CPU             : System.Multiprocessors.CPU_Range;
---      Task_Info            : System.Task_Info.Task_Info_Type;
---      Stack_Address        : System.Address;
---      Stack_Size           : System.Parameters.Size_Type;
---      T                    : Task_Id;
---      Success              : out Boolean)
---   is
---   begin
+   ---------------------
+   -- Initialize_ATCB --
+   ---------------------
+
+   procedure Initialize_ATCB
+     (Task_Entry_Point     : Task_Procedure_Access;
+      Task_Arg             : System.Address;
+      Base_Priority        : Extended_Priority;
+      Base_CPU             : System.Multiprocessors.CPU_Range;
+      Task_Info            : System.Task_Info.Task_Info_Type;
+      Stack_Address        : System.Address;
+      Stack_Size           : System.Parameters.Size_Type;
+      T                    : Task_Id;
+      Success              : out Boolean)
+   is
+   begin
+      null;
 --      T.Common.State := Unactivated;
 --
 --      --  Initialize T.Common.LL
@@ -111,20 +113,22 @@ package body System.Tasking is
 --      T.Common.Compiler_Data.Pri_Stack_Info.Size :=
 --        Storage_Elements.Storage_Offset
 --          (Parameters.Adjust_Storage_Size (Stack_Size));
---   end Initialize_ATCB;
+   end Initialize_ATCB;
 
    ----------------
    -- Initialize --
    ----------------
 
+   Sec_Stack_Ptr : System.Secondary_Stack.SS_Stack_Ptr := null;
+
    Initialized : Boolean := False;
    --  Used to prevent multiple calls to Initialize
 
    procedure Initialize is
---      Base_Priority : Any_Priority;
---
---      Success : Boolean;
---      pragma Warnings (Off, Success);
+      Base_Priority : Any_Priority;
+
+      Success : Boolean;
+      pragma Warnings (Off, Success);
 
    begin
       if Initialized then
@@ -138,13 +142,13 @@ package body System.Tasking is
 --      if Main_Priority = Unspecified_Priority then
 --         Base_Priority := Default_Priority;
 --      else
---         Base_Priority := Main_Priority;
+         Base_Priority := Main_Priority;
 --      end if;
---
---      Initialize_ATCB
---        (null, Null_Address, Base_Priority, CPU'First,
---         Task_Info.Unspecified_Task_Info, Null_Address, 0,
---         Environment_Task'Access, Success);
+
+      Initialize_ATCB
+        (null, Null_Address, Base_Priority, CPU'First,
+         Task_Info.Unspecified_Task_Info, Null_Address, 0,
+         Environment_Task'Access, Success);
 
       Task_Primitives.Operations.Initialize
         (Environment_Task'Access);
@@ -159,8 +163,10 @@ package body System.Tasking is
       --  to assign a stack from the default-sized secondary stack pool.
 
       Environment_Task.Common.Compiler_Data.Sec_Stack_Ptr := null;
-      SS_Init
-        (Environment_Task.Common.Compiler_Data.Sec_Stack_Ptr);
+      System.Secondary_Stack.SS_Init (Sec_Stack_Ptr);
+      Environment_Task.Common.Compiler_Data.Sec_Stack_Ptr := Sec_Stack_Ptr;
+      --  SS_Init
+      --    (Environment_Task.Common.Compiler_Data.Sec_Stack_Ptr);
 
 --      --  No fall back handler by default
 --

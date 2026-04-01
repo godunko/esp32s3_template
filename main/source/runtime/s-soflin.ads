@@ -179,10 +179,10 @@ package System.Soft_Links is
    Release_RTS_Lock    : constant Set_Address_Call :=
                                                  Release_RTS_Lock_Soft'Access;
 
---   procedure Tasking_Runtime_Initialize is null;
---   pragma Export (Ada, Tasking_Runtime_Initialize,
---                  "__gnat_tasking_runtime_initialize");
---   --  Nothing to do since the above soft-links need not be changed
+   procedure Tasking_Runtime_Initialize is null;
+   pragma Export (Ada, Tasking_Runtime_Initialize,
+                  "__gnat_tasking_runtime_initialize");
+   --  Nothing to do since the above soft-links need not be changed
 
    -------------------------------------
    -- Exception Tracebacks Soft-Links --
