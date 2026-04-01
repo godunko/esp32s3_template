@@ -13,7 +13,7 @@ ExternalProject_Add(adaapplication_build
 )
 
 add_prebuilt_library(libadaapplication "${COMPONENT_LIB}"
-    REQUIRES)
+    REQUIRES cxx)
 add_dependencies(libadaapplication adaapplication_build)
 
 set_target_properties(libadaapplication PROPERTIES IMPORTED_LOCATION
