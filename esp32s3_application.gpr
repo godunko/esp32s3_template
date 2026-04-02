@@ -24,7 +24,7 @@ library project ESP32S3_Application is
          --
          --  Runtime uses "static" allocation stategy for secondary stacks
          --  thus size of the secondary stack should be specified.
-         "-Q4");
+         "-Q2");
          --  Generate nnn additional default-sized secondary stacks
          --
          --  Some tasks are created by ESP-IDF, for example, for USB stack,
