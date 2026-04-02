@@ -14,7 +14,22 @@ library project ESP32S3_Application is
    for Library_Standalone use "encapsulated";
 
    package Binder is
-      for Switches ("Ada") use ("-Lada");
+      for Switches ("Ada") use
+        ("-Lada",
+         --  Library build: adainit/final renamed to xyzinit/final, implies -n
+         --
+         --  `adafinal` is called from `application.adb`
+         "-D4k",
+         --  Default secondary stack size = nn [kilo|mega] bytes
+         --
+         --  Runtime uses "static" allocation stategy for secondary stacks
+         --  thus size of the secondary stack should be specified.
+         "-Q4");
+         --  Generate nnn additional default-sized secondary stacks
+         --
+         --  Some tasks are created by ESP-IDF, for example, for USB stack,
+         --  IP stack, event handling. If these tasks calls Ada subprograms
+         --  which use secondary stack this number should be adjusted.
    end Binder;
 
    package Compiler is
