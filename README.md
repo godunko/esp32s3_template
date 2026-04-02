@@ -16,9 +16,13 @@
    ```
 5. Download `bb-runtimes-15` package
    ```
-    git clone git@github.com:alire-project/bb-runtimes.git bb-runtimes-15 --branch gnat-fsf-15
+    git clone https://github.com/alire-project/bb-runtimes.git bb-runtimes-15 --branch gnat-fsf-15
    ```
-6. Download Ada project template and remote GIT metainformation
+6. Download `espidf-runtime` package
+   ```
+    git clone git@github.com:godunko/espidf-runtime.git
+   ```
+7. Download Ada project template and remote GIT metainformation
    ```
     git clone https://github.com/godunko/esp32s3_template.git my_project
     rm -rf my_project/.git
