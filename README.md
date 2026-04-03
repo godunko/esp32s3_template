@@ -1,6 +1,6 @@
 # Template of Ada project for ESP32S3
 
-## Setup (2025-10-03)
+## Setup (2026-03-03)
 
 1. Install [Alire](https://alire.ada.dev/)
 2. Install [ESP-IDF tools](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/get-started/index.html) in your favorite way (for example, from the VS Code ESP-IDF extension)
