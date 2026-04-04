@@ -62,3 +62,11 @@ This application tests few features of the Ada runtime
 Feel free to replace it by your application!
 ```
 `ESP-IDF` and `Ada & SPARK` extensions for VS Code creates useful development environment.
+
+## VS Code Integration
+
+To get the most out of this template, it is recommend installing the following extensions:
+
+ * ESP-IDF Extension: Manages flashing, monitoring, and the SDK configuration (menuconfig).
+ * Ada & SPARK Extension: Provides syntax highlighting, IntelliSense, and code navigation for Ada.
+
