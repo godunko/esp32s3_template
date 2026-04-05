@@ -6,8 +6,9 @@
       "request": "attach",
       "name": "Eclipse CDT GDB Adapter",
       "initCommands": [
+        "set multiple-symbols cancel",
         "monitor reset halt",
-        "hbreak __gnat_last_chance_handler",
+	"hbreak __gnat_raise_program_error_msg",
         "hbreak _ada_main"
       ]
     },
