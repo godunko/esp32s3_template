@@ -7,7 +7,10 @@ ExternalProject_Add(adaapplication_build
     BUILD_IN_SOURCE 1
     BUILD_ALWAYS 1
     CONFIGURE_COMMAND ""
-    BUILD_COMMAND alr build
+    BUILD_COMMAND alr build -- -cargs:c
+        "-D$<JOIN:$<TARGET_PROPERTY:libadaapplication,INTERFACE_COMPILE_DEFINITIONS>,$<SEMICOLON>-D>"
+        "-I$<JOIN:$<TARGET_PROPERTY:libadaapplication,INTERFACE_INCLUDE_DIRECTORIES>,$<SEMICOLON>-I>"
+    COMMAND_EXPAND_LISTS
     INSTALL_COMMAND ""
     BUILD_BYPRODUCTS ${COMPONENT_DIR}/../.libs/libadaapplication.a
 )
