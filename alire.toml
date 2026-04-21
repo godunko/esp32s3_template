@@ -22,3 +22,12 @@ xtensa_dynconfig = "*"
 [[pins]]
 a0b_tools = { path='crates/a0b-tools' }
 xtensa_dynconfig = { path='crates/xtensa-dynconfig' }
+
+[[actions]]
+type = 'post-build'
+# esp-idf expects a library as an externally built project.
+# Since we build a partially linked elf file it fails to
+# generate the linker scripts as their tool looks for the
+# "In archive" that objdump prints only for libraries. To
+# solve that we just put the elf file into a static library.
+command = ['ar', 'rcs', '.objs/main.a', '.objs/main']

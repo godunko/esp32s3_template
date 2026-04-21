@@ -1,39 +1,39 @@
 
 with "config/esp32s3_application_config.gpr";
 
-library project ESP32S3_Application is
+project ESP32S3_Application is
 
    for Target use "xtensa-esp32-elf";
    for Runtime ("Ada") use "components/espidf_gnat_runtime/runtime";
 
-   for Source_Dirs use ("main/source", "source");
+   for Source_Dirs use ("source");
    for Object_Dir use ".objs";
-   for Library_Name use "adaapplication";
-   for Library_Dir use ".libs";
-   for Library_Interface use ("Application");
-   for Library_Standalone use "encapsulated";
+   for Main use ("main.adb");
 
    package Binder is
       for Switches ("Ada") use
-        ("-Lada",
-         --  Library build: adainit/final renamed to xyzinit/final, implies -n
-         --
-         --  `adafinal` is called from `application.adb`
-         "-D4k",
+        ("-D4k",
          --  Default secondary stack size = nn [kilo|mega] bytes
          --
          --  Runtime uses "static" allocation stategy for secondary stacks
          --  thus size of the secondary stack should be specified.
-         "-Q2");
+         "-Q2",
          --  Generate nnn additional default-sized secondary stacks
          --
          --  Some tasks are created by ESP-IDF, for example, for USB stack,
          --  IP stack, event handling. If these tasks calls Ada subprograms
          --  which use secondary stack this number should be adjusted.
+         "-Mapp_main");
+         --  Set the binder generated main function's name to app_main as this
+         --  is required by the SDK.
    end Binder;
 
    package Compiler is
       for Switches ("Ada") use ("-g", "-O2");
    end Compiler;
+
+   package Linker is
+      for Default_Switches ("Ada") use ("-Wl,-r", "-nostdlib");
+   end Linker;
 
 end ESP32S3_Application;

@@ -12,7 +12,7 @@ ExternalProject_Add(adaapplication_build
         "-I$<JOIN:$<TARGET_PROPERTY:libadaapplication,INTERFACE_INCLUDE_DIRECTORIES>,$<SEMICOLON>-I>"
     COMMAND_EXPAND_LISTS
     INSTALL_COMMAND ""
-    BUILD_BYPRODUCTS ${COMPONENT_DIR}/../.libs/libadaapplication.a
+    BUILD_BYPRODUCTS ${COMPONENT_DIR}/../.objs/main.a
 )
 
 add_prebuilt_library(libadaapplication "${COMPONENT_LIB}"
@@ -21,7 +21,7 @@ add_dependencies(libadaapplication adaapplication_build)
 add_dependencies(adaapplication_build espidf_gnat_runtime)
 
 set_target_properties(libadaapplication PROPERTIES IMPORTED_LOCATION
-    ${COMPONENT_DIR}/../.libs/libadaapplication.a)
+    ${COMPONENT_DIR}/../.objs/main.a)
 
 target_link_libraries(
     ${COMPONENT_LIB} INTERFACE libadaapplication)

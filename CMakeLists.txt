@@ -8,6 +8,5 @@ idf_build_set_property(MINIMAL_BUILD ON)
 project(hello_world)
 
 set_property(TARGET "${PROJECT_NAME}.elf" APPEND PROPERTY
-    ADDITIONAL_CLEAN_FILES "${CMAKE_CURRENT_SOURCE_DIR}/.libs"
-                           "${CMAKE_CURRENT_SOURCE_DIR}/.objs"
+    ADDITIONAL_CLEAN_FILES "${CMAKE_CURRENT_SOURCE_DIR}/.objs"
                            "${CMAKE_CURRENT_SOURCE_DIR}/runtime")
