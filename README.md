@@ -70,3 +70,7 @@ To get the most out of this template, it is recommend installing the following e
  * ESP-IDF Extension: Manages flashing, monitoring, and the SDK configuration (menuconfig).
  * Ada & SPARK Extension: Provides syntax highlighting, IntelliSense, and code navigation for Ada.
 
+# Related repositories
+
+ * [ESP-IDF GNAT Runtime](https://github.com/godunko/espidf_gnat_runtime)
+ * [Ada/ESP-IDF Binding](https://github.com/godunko/espidf)
