@@ -1,5 +1,7 @@
 # ESP32-S3 Ada Project Template (ESP-IDF Integrated)
 
+[![Build](https://github.com/godunko/esp32s3_template/actions/workflows/main.yaml/badge.svg)](https://github.com/godunko/esp32s3_template/actions/workflows/main.yaml)
+
 This repository provides a template for integrating Ada source code into the ESP-IDF (C-based) build system.
 It allows you to leverage the robust drivers and RTOS capabilities of the ESP-IDF while writing your application logic in Ada.
 
