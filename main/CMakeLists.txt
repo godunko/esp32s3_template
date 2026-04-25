@@ -1,5 +1,4 @@
-idf_component_register(
-    REQUIRES espidf_gnat_runtime)
+idf_component_register()
 
 ExternalProject_Add(app_main_build
     PREFIX ${COMPONENT_DIR}
@@ -15,9 +14,7 @@ ExternalProject_Add(app_main_build
     BUILD_BYPRODUCTS ${COMPONENT_DIR}/../.objs/app_main.o
 )
 
-add_prebuilt_library(app_main "${COMPONENT_LIB}"
-    REQUIRES espidf_gnat_runtime)
-add_dependencies(app_main_build espidf_gnat_runtime)
+add_prebuilt_library(app_main "${COMPONENT_LIB}" REQUIRES freertos)
 
 target_link_libraries(
     ${COMPONENT_LIB} INTERFACE ${COMPONENT_DIR}/../.objs/app_main.o)
