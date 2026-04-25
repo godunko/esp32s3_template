@@ -1,0 +1,27 @@
+
+name: Build
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/godunko/espidf-alire:main
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    - name: Build Xtensa Dynconfig
+      run: |
+        alr -C crates/xtensa-dynconfig --non-interactive with --solve
+        alr -C crates/xtensa-dynconfig build
+    - name: Build A0B Tools
+      run: |
+        alr -C crates/a0b-tools --non-interactive with --solve
+        alr -C crates/a0b-tools build
+    - name: Build and Run tests
+      run: |
+        . $IDF_PATH/export.sh
+        idf.py set-target esp32s3
+        idf.py build
