@@ -1,27 +1,23 @@
 idf_component_register(
     REQUIRES espidf_gnat_runtime)
 
-ExternalProject_Add(adaapplication_build
+ExternalProject_Add(app_main_build
     PREFIX ${COMPONENT_DIR}
     SOURCE_DIR ${COMPONENT_DIR}
     BUILD_IN_SOURCE 1
     BUILD_ALWAYS 1
     CONFIGURE_COMMAND ""
     BUILD_COMMAND alr build -- -cargs:c
-        "-D$<JOIN:$<TARGET_PROPERTY:libadaapplication,INTERFACE_COMPILE_DEFINITIONS>,$<SEMICOLON>-D>"
-        "-I$<JOIN:$<TARGET_PROPERTY:libadaapplication,INTERFACE_INCLUDE_DIRECTORIES>,$<SEMICOLON>-I>"
+        "-D$<JOIN:$<TARGET_PROPERTY:app_main,INTERFACE_COMPILE_DEFINITIONS>,$<SEMICOLON>-D>"
+        "-I$<JOIN:$<TARGET_PROPERTY:app_main,INTERFACE_INCLUDE_DIRECTORIES>,$<SEMICOLON>-I>"
     COMMAND_EXPAND_LISTS
     INSTALL_COMMAND ""
-    BUILD_BYPRODUCTS ${COMPONENT_DIR}/../.objs/main.a
+    BUILD_BYPRODUCTS ${COMPONENT_DIR}/../.objs/app_main.o
 )
 
-add_prebuilt_library(libadaapplication "${COMPONENT_LIB}"
+add_prebuilt_library(app_main "${COMPONENT_LIB}"
     REQUIRES espidf_gnat_runtime)
-add_dependencies(libadaapplication adaapplication_build)
-add_dependencies(adaapplication_build espidf_gnat_runtime)
-
-set_target_properties(libadaapplication PROPERTIES IMPORTED_LOCATION
-    ${COMPONENT_DIR}/../.objs/main.a)
+add_dependencies(app_main_build espidf_gnat_runtime)
 
 target_link_libraries(
-    ${COMPONENT_LIB} INTERFACE libadaapplication)
+    ${COMPONENT_LIB} INTERFACE ${COMPONENT_DIR}/../.objs/app_main.o)
