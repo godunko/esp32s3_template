@@ -6,7 +6,7 @@
 	path = crates/xtensa-dynconfig
 	url = git@github.com:godunko/xtensa-dynconfig.git
 	branch = main
-[submodule "components/espidf_gnat_runtime"]
+[submodule "crates/espidf_gnat_runtime"]
 	path = crates/espidf_gnat_runtime
 	url = git@github.com:godunko/espidf_gnat_runtime.git
 	branch = main
