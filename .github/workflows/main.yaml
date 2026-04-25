@@ -20,8 +20,8 @@ jobs:
       run: |
         alr -C crates/a0b-tools --non-interactive with --solve
         alr -C crates/a0b-tools build
-    - name: Build and Run tests
+    - name: Build application and run it
       run: |
         . $IDF_PATH/export.sh
         idf.py set-target esp32s3
-        idf.py build
+        idf.py qemu --qemu-extra-args --no-reboot
