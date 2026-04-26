@@ -14,7 +14,7 @@ Instead of a standalone Ada executable, this project compiles Ada source into a 
 
 ## Prerequisites
 
- * ESP-IDF SDK: Version 5.x is recommended. Ensure `idf.py` is in your PATH.
+ * ESP-IDF SDK: Version 6.x is recommended. Ensure `idf.py` is in your PATH.
  * Alire (Ada Libre Resources): The Ada package manager.
 
 ## Build Instructions
