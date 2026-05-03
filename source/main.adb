@@ -8,28 +8,44 @@ pragma Warnings (On, "is an internal GNAT unit");
 --  `System.Tasking.Initialization` should be with-ed to setup task-safe soft
 --  links, which is required due to use of FreeRTOS by ESP-IDF.
 
+with Ada.Exceptions;
 with Ada.Text_IO;
+with GNAT.Exception_Actions;
+with GPIO0_Interrupt;
+with RTS_Exception_Hooks;
+with Interfaces;
 
 procedure Main is
+  use type Interfaces.Unsigned_32;
 
-   procedure ESP_Restart
-     with Import, Convention => C, External_Name => "esp_restart";
-
+  Last_Count : Interfaces.Unsigned_32 := 0;
 begin
+  GNAT.Exception_Actions.Register_Id_Action
+    (Program_Error'Identity, RTS_Exception_Hooks.On_Program_Error'Access);
+
+  GPIO0_Interrupt.Initialize;
+
    Ada.Text_IO.New_Line;
    Ada.Text_IO.New_Line;
    Ada.Text_IO.Put_Line ("Hello, Ada world!");
    Ada.Text_IO.New_Line;
+  Ada.Text_IO.Put_Line
+    ("GPIO0 is configured as INPUT_PULLUP with falling-edge interrupt");
    Ada.Text_IO.Put_Line
-     ("This application tests few features of the Ada runtime");
-   Ada.Text_IO.Put_Line
-     ("Feel free to replace it by your application!");
+    ("Pull GPIO0 low to trigger the Ada interrupt procedure");
    Ada.Text_IO.New_Line;
 
-   delay 1.0;
+  loop
+    declare
+      Count : constant Interfaces.Unsigned_32 := GPIO0_Interrupt.Trigger_Count;
+    begin
+      if Count /= Last_Count then
+        Last_Count := Count;
+        Ada.Text_IO.Put_Line
+          ("GPIO0 interrupt count:" & Interfaces.Unsigned_32'Image (Count));
+      end if;
+    end;
 
-   Ada.Text_IO.Put_Line ("Restarting...");
-
-   ESP_Restart;
-   --  Restart to exit from Qemu in CI.
+    delay 0.05;
+  end loop;
 end Main;
