@@ -134,8 +134,13 @@ the attachment is resolved entirely at compile/elaboration time.
    end loop;
    ```
 
-Pull GPIO0 to GND (e.g. with a button or a wire) to trigger the interrupt and watch the
-counter increment on the serial monitor.
+Pull GPIO0 to GND to trigger the interrupt and watch the counter increment on the serial monitor.
+
+> **Tip:** GPIO0 is the ESP32-S3 boot-mode strapping pin.  Most development boards (e.g.
+> ESP32-S3-DevKitC) already have a "BOOT" push button wired between GPIO0 and GND — so no
+> extra hardware is needed to run this example.  Pressing BOOT while the firmware is running
+> will fire the interrupt rather than resetting into the bootloader, because the chip only
+> samples the strapping pin during reset.
 
 `ESP-IDF` and `Ada & SPARK` extensions for VS Code creates useful development environment.
 
