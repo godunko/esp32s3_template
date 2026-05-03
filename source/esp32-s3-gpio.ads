@@ -13,8 +13,6 @@ package ESP32.S3.GPIO is
    GPIO_Min_Pin : constant := 0;
    GPIO_Max_Pin : constant := 48;
 
-   subtype GPIO_Pin is ESP32.GPIO.GPIO_Pin range GPIO_Min_Pin .. GPIO_Max_Pin;
-
    --  -----------------------------------------------------------------------
    --  Module-reserved pins.
    --  These ranges are typical for standard ESP32-S3 modules (e.g.
@@ -35,7 +33,7 @@ package ESP32.S3.GPIO is
    --  compile time when the pin number is a static literal or named number.
    --  Flash and PSRAM ranges are checked independently so the predicate
    --  remains correct even if the two reserved regions are not contiguous.
-   subtype Safe_GPIO_Pin is GPIO_Pin
+   subtype Safe_GPIO_Pin is ESP32.GPIO.GPIO_Pin range GPIO_Min_Pin .. GPIO_Max_Pin
    with
      Static_Predicate =>
        Safe_GPIO_Pin not in Flash_Pin_First .. Flash_Pin_Last
