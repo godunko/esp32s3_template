@@ -15,50 +15,12 @@ Instead of a standalone Ada executable, this project compiles Ada source into a 
  * Ada Side: Managed by Alire (`alr`).
  * System Side: Managed by IDF (`CMake`/`ninja`).
 
-## Prerequisites
+## Prerequisites and Build Instructions
 
- * ESP-IDF SDK: Version 6.x is recommended. Ensure `idf.py` is in your PATH.
- * Alire (Ada Libre Resources): The Ada package manager.
+Prerequisites and build instructions are documented in the upstream repository this project was forked from:
+[godunko/esp32s3_template](https://github.com/godunko/esp32s3_template).
 
-## Build Instructions
-
-Since the Ada build is integrated, you only need to use the standard ESP-IDF commands.
-
-1. Setup Environment
-
-Source the ESP-IDF tools:
-
-```bash
-# Linux/macOS
-. $HOME/esp/esp-idf/export.sh
-
-# Windows (PowerShell)
-. .\export.ps1
-```
-2. Clone and Build tools
-
-```bash
-git clone --recurse-submodules https://github.com/godunko/esp32s3_template.git my_esp32s3_project
-cd my_esp32s3_project
-alr -C crates/a0b-tools/ build
-alr -C crates/xtensa-dynconfig/ build
-```
-3. Build, Flash, and Monitor via ESP-IDF
-
-The following command compiles both the Ada and C sources, links the binary, flashes the hardware, and opens the serial monitor:
-
-```bash
-# Configure the target (first time only)
-idf.py set-target esp32s3
-
-# Build the full project (compiles and links Ada library + ESP-IDF components)
-idf.py build
-
-# Flash and monitor
-idf.py flash monitor
-```
-
-You should see now
+Once built and flashed you should see:
 
 ```
 Hello, Ada world!
