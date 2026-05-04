@@ -36,13 +36,15 @@ package body GPIO0_Interrupt is
    end GPIO0_Handler;
 
    procedure Initialize is
+      Config : constant ESP32.GPIO.GPIO_Pin_Config :=
+        (Reset_First      => True,
+         Mode             => ESP32.GPIO.Mode_Input,
+         Pullup           => True,
+         Pulldown         => False,
+         Interrupt_Type   => ESP32.GPIO.Intr_Negative_Edge,
+         Interrupt_Enable => True);
    begin
-      ESP32.GPIO.Reset_Pin (GPIO0);
-      ESP32.GPIO.Set_Direction (GPIO0, ESP32.GPIO.Mode_Input);
-      ESP32.GPIO.Pullup_Enable (GPIO0);
-      ESP32.GPIO.Pulldown_Disable (GPIO0);
-      ESP32.GPIO.Set_Intr_Type (GPIO0, ESP32.GPIO.Intr_Negative_Edge);
-      ESP32.GPIO.Intr_Enable (GPIO0);
+      ESP32.GPIO.Configure_Pin (GPIO0, Config);
    end Initialize;
 
    function Trigger_Count return Interfaces.Unsigned_32 is

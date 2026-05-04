@@ -1,3 +1,9 @@
+--  Implementation of ESP32.GPIO.
+--  Each public procedure calls the corresponding IDF C function via a thin
+--  import and forwards any non-zero esp_err_t to Raise_On_Error.
+--  Configure_Pin applies all settings from a GPIO_Pin_Config record in one
+--  call; its Dynamic_Predicate on the record type enforces valid pull-resistor
+--  combinations before any IDF calls are made.
 with Interfaces.C;
 
 package body ESP32.GPIO is
@@ -5,13 +11,18 @@ package body ESP32.GPIO is
 
    subtype ESP_Error is Interfaces.C.int;
 
-   function Gpio_Set_Direction_Raw (Pin : Interfaces.C.int; Mode : Interfaces.C.int) return Interfaces.C.int
+   function Gpio_Set_Direction_Raw
+     (Pin : Interfaces.C.int; Mode : Interfaces.C.int) return Interfaces.C.int
    with Import, Convention => C, External_Name => "gpio_set_direction";
 
-   function Gpio_Set_Intr_Type_Raw (Pin : Interfaces.C.int; Intr_Type : Interfaces.C.int) return Interfaces.C.int
+   function Gpio_Set_Intr_Type_Raw
+     (Pin : Interfaces.C.int; Intr_Type : Interfaces.C.int)
+      return Interfaces.C.int
    with Import, Convention => C, External_Name => "gpio_set_intr_type";
 
-   function Gpio_Set_Level_Raw (Pin : Interfaces.C.int; Level : Interfaces.C.unsigned) return Interfaces.C.int
+   function Gpio_Set_Level_Raw
+     (Pin : Interfaces.C.int; Level : Interfaces.C.unsigned)
+      return Interfaces.C.int
    with Import, Convention => C, External_Name => "gpio_set_level";
 
    function Gpio_Get_Level_Raw (Pin : Interfaces.C.int) return Interfaces.C.int
@@ -88,21 +99,54 @@ package body ESP32.GPIO is
 
    procedure Set_Direction (Pin : GPIO_Pin; Mode : GPIO_Mode) is
    begin
-      Raise_On_Error (Gpio_Set_Direction_Raw (Pin, Mode_To_C (Mode)), "gpio_set_direction");
+      Raise_On_Error
+        (Gpio_Set_Direction_Raw (Pin, Mode_To_C (Mode)), "gpio_set_direction");
    end Set_Direction;
 
    procedure Set_Intr_Type (Pin : GPIO_Pin; Kind : GPIO_Intr_Type) is
    begin
-      Raise_On_Error (Gpio_Set_Intr_Type_Raw (Pin, Intr_Type_To_C (Kind)), "gpio_set_intr_type");
+      Raise_On_Error
+        (Gpio_Set_Intr_Type_Raw (Pin, Intr_Type_To_C (Kind)),
+         "gpio_set_intr_type");
    end Set_Intr_Type;
 
    procedure Set_Level (Pin : GPIO_Pin; Level : GPIO_Level) is
-      Raw_Level : constant Interfaces.C.unsigned := (if Level = High then 1 else 0);
+      Raw_Level : constant Interfaces.C.unsigned :=
+        (if Level = High then 1 else 0);
    begin
       Raise_On_Error (Gpio_Set_Level_Raw (Pin, Raw_Level), "gpio_set_level");
    end Set_Level;
 
    function Get_Level (Pin : GPIO_Pin) return GPIO_Level
    is (if Gpio_Get_Level_Raw (Pin) = 0 then Low else High);
+
+   procedure Configure_Pin (Pin : GPIO_Pin; Config : GPIO_Pin_Config) is
+   begin
+      if Config.Reset_First then
+         Reset_Pin (Pin);
+      end if;
+
+      Set_Direction (Pin, Config.Mode);
+
+      if Config.Pullup then
+         Pullup_Enable (Pin);
+      else
+         Pullup_Disable (Pin);
+      end if;
+      if Config.Pulldown then
+         Pulldown_Enable (Pin);
+      else
+         Pulldown_Disable (Pin);
+      end if;
+
+      Set_Intr_Type (Pin, Config.Interrupt_Type);
+
+      if Config.Interrupt_Enable then
+         Intr_Enable (Pin);
+      else
+         Intr_Disable (Pin);
+      end if;
+
+   end Configure_Pin;
 
 end ESP32.GPIO;
