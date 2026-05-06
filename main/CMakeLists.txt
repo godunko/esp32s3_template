@@ -6,7 +6,7 @@ ExternalProject_Add(app_main_build
     BUILD_IN_SOURCE 1
     BUILD_ALWAYS 1
     CONFIGURE_COMMAND ""
-    BUILD_COMMAND alr build -- -cargs:c
+    BUILD_COMMAND alr build -- -cargs:c -DESP_PLATFORM
         "-D$<JOIN:$<TARGET_PROPERTY:app_main,INTERFACE_COMPILE_DEFINITIONS>,$<SEMICOLON>-D>"
         "-I$<JOIN:$<TARGET_PROPERTY:app_main,INTERFACE_INCLUDE_DIRECTORIES>,$<SEMICOLON>-I>"
     COMMAND_EXPAND_LISTS
