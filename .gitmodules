@@ -13,4 +13,4 @@
 [submodule "crates/bb-runtimes"]
 	path = crates/bb-runtimes
 	url = git@github.com:alire-project/bb-runtimes.git
-	branch = gnat-fsf-15
+	branch = gnat-fsf-16

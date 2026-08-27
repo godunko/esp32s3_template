@@ -20,7 +20,7 @@ XTENSA_GNU_CONFIG.set = "${CRATE_ROOT}/crates/xtensa-dynconfig/xtensa-dynconfig/
 a0b_base = "*"
 a0b_tools = "*"
 espidf_gnat_runtime = "*"
-gnat_xtensa_esp32_elf = "^15"
+gnat_xtensa_esp32_elf = "^16"
 xtensa_dynconfig = "*"
 
 [[actions]]
