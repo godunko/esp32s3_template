@@ -1,78 +1,76 @@
-# ESP32-S3 Ada Project Template (ESP-IDF Integrated)
+# ESP32-S3 Ada Project Template
 
 [![Build](https://github.com/godunko/esp32s3_template/actions/workflows/main.yaml/badge.svg)](https://github.com/godunko/esp32s3_template/actions/workflows/main.yaml)
 
-This repository provides a template for integrating Ada source code into the ESP-IDF (C-based) build system.
-It allows you to leverage the robust drivers and RTOS capabilities of the ESP-IDF while writing your application logic in Ada.
+A starter Ada application for ESP32-S3 using ESP-IDF and the embedded GNAT
+runtime. The template uses ESP-IDF 6.1, GNAT 16 and `bb-runtimes` branch
+`gnat-fsf-16`.
 
-## Project Architecture
+ESP-IDF builds the firmware and the runtime's C bridge. Alire generates the Ada
+runtime and builds the application into `.objs/app_main.o`, which ESP-IDF links
+into the firmware.
 
-Instead of a standalone Ada executable, this project compiles Ada source into a encapsulated static library that is linked into the final ESP-IDF project.
+## Build and run
 
- * Ada Side: Managed by Alire (`alr`).
- * System Side: Managed by IDF (`CMake`/`ninja`).
-
-## Prerequisites
-
- * ESP-IDF SDK: Version 6.x is recommended. Ensure `idf.py` is in your PATH.
- * Alire (Ada Libre Resources): The Ada package manager.
-
-## Build Instructions
-
-Since the Ada build is integrated, you only need to use the standard ESP-IDF commands.
-
-1. Setup Environment
-
-Source the ESP-IDF tools:
-
-```bash
-# Linux/macOS
-. $HOME/esp/esp-idf/export.sh
-
-# Windows (PowerShell)
-. .\export.ps1
-```
-2. Clone and Build tools
+Install ESP-IDF 6.1, Alire, a host C compiler and Make. Alire supplies the Ada
+compiler and GPRbuild.
 
 ```bash
 git clone --recurse-submodules https://github.com/godunko/esp32s3_template.git my_esp32s3_project
 cd my_esp32s3_project
-alr -C crates/a0b-tools/ build
-alr -C crates/xtensa-dynconfig/ build
-```
-3. Build, Flash, and Monitor via ESP-IDF
 
-The following command compiles both the Ada and C sources, links the binary, flashes the hardware, and opens the serial monitor:
+alr -n -C crates/a0b-tools build
+alr -n -C crates/xtensa-dynconfig build
 
-```bash
-# Configure the target (first time only)
-idf.py set-target esp32s3
+# Use the path to your ESP-IDF installation.
+. "$HOME/esp/esp-idf/export.sh"
 
-# Build the full project (compiles and links Ada library + ESP-IDF components)
 idf.py build
-
-# Flash and monitor
 idf.py flash monitor
 ```
 
-You should see now
+For an existing clone, initialize missing dependencies with
+`git submodule update --init --recursive` before building the tools.
 
+Use `idf.py build` to build the complete application. The firmware outputs are
+`build/hello_world.elf` and `build/hello_world.bin`.
+
+The example prints `Hello, Ada world!` and restarts after one second. With the
+ESP-IDF QEMU tools installed, run it without a board:
+
+```bash
+idf.py qemu --qemu-extra-args --no-reboot
 ```
-Hello, Ada world!
 
-This application tests few features of the Ada runtime
-Feel free to replace it by your application!
-```
-`ESP-IDF` and `Ada & SPARK` extensions for VS Code creates useful development environment.
+## Project files
 
-## VS Code Integration
+- `source/`: application Ada sources; start with `main.adb`.
+- `esp32s3_application.gpr`: Ada compiler, binder and linker settings.
+- `alire.toml`: Ada dependencies and runtime generation.
+- `main/CMakeLists.txt`: connects the Ada build to ESP-IDF.
+- `components/espidf_gnat_runtime/`: shared runtime checkout for ESP-IDF and Alire.
+- `crates/`: runtime generator, `bb-runtimes` sources and Xtensa configuration tools.
 
-To get the most out of this template, it is recommend installing the following extensions:
+## Configuration
 
- * ESP-IDF Extension: Manages flashing, monitoring, and the SDK configuration (menuconfig).
- * Ada & SPARK Extension: Provides syntax highlighting, IntelliSense, and code navigation for Ada.
+`sdkconfig.defaults` selects ESP32-S3, C++ exceptions for Ada unwinding, Newlib
+and two FreeRTOS TLS slots. Other settings use SDK defaults. Existing values in
+`sdkconfig` take precedence; use `idf.py menuconfig` to review them.
 
-# Related repositories
+Secondary stacks are statically allocated. The binder switch `-D4k` fixes their
+size at 4 KiB. `-Q3` is the minimum for ESP32-S3: one secondary stack for the
+environment task and one for interrupt handlers on each CPU. Add one for each
+foreign thread needing a secondary stack over the application lifetime; those
+stacks are not recycled. Ordinary Ada tasks are counted separately by the binder.
 
- * [ESP-IDF GNAT Runtime](https://github.com/godunko/espidf_gnat_runtime)
- * [Ada/ESP-IDF Binding](https://github.com/godunko/espidf)
+When enabling `-fstack-check`, size each primary stack executing instrumented
+code to at least its SDK default plus 12 KiB, with additional space as required
+by the application. This includes task and ISR stacks as applicable.
+
+See the [runtime documentation](https://github.com/godunko/espidf_gnat_runtime/blob/main/README.md) for
+supported features, interrupt and callback constraints, and ABI requirements.
+
+## Related projects
+
+- [ESP-IDF/Ada bindings](https://github.com/godunko/espidfada)
+- [Project scaffolding skill](https://github.com/godunko/ada_espidf_skills/tree/main/ada-espidf-skeleton)

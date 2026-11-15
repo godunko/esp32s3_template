@@ -1,16 +1,16 @@
 [submodule "crates/a0b-tools"]
 	path = crates/a0b-tools
-	url = git@github.com:godunko/a0b-tools.git
+	url = https://github.com/godunko/a0b-tools.git
 	branch = main
 [submodule "crates/xtensa-dynconfig"]
 	path = crates/xtensa-dynconfig
-	url = git@github.com:godunko/xtensa-dynconfig.git
+	url = https://github.com/godunko/xtensa-dynconfig.git
 	branch = main
 [submodule "crates/espidf_gnat_runtime"]
-	path = crates/espidf_gnat_runtime
-	url = git@github.com:godunko/espidf_gnat_runtime.git
+	path = components/espidf_gnat_runtime
+	url = https://github.com/godunko/espidf_gnat_runtime.git
 	branch = main
 [submodule "crates/bb-runtimes"]
 	path = crates/bb-runtimes
-	url = git@github.com:alire-project/bb-runtimes.git
+	url = https://github.com/alire-project/bb-runtimes.git
 	branch = gnat-fsf-16

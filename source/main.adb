@@ -1,13 +1,6 @@
 
 pragma Ada_2022;
 
-pragma Warnings (Off, "is an internal GNAT unit");
-with System.Tasking.Initialization;
-pragma Elaborate_All (System.Tasking.Initialization);
-pragma Warnings (On, "is an internal GNAT unit");
---  `System.Tasking.Initialization` should be with-ed to setup task-safe soft
---  links, which is required due to use of FreeRTOS by ESP-IDF.
-
 with Ada.Text_IO;
 
 procedure Main is

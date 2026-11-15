@@ -22,14 +22,16 @@ project ESP32S3_Application is
         ("-D4k",
          --  Default secondary stack size = nn [kilo|mega] bytes
          --
-         --  Runtime uses "static" allocation stategy for secondary stacks
-         --  thus size of the secondary stack should be specified.
-         "-Q2",
+         --  Secondary stacks are statically allocated, so their size is
+         --  fixed by this switch and cannot grow at run time.
+         "-Q3",
          --  Generate nnn additional default-sized secondary stacks
          --
-         --  Some tasks are created by ESP-IDF, for example, for USB stack,
-         --  IP stack, event handling. If these tasks calls Ada subprograms
-         --  which use secondary stack this number should be adjusted.
+         --  ESP32-S3 requires at least three: one for the environment task
+         --  and one for interrupt handlers on each CPU.
+         --  Add one stack per foreign thread using a secondary stack over
+         --  the application lifetime. Ordinary Ada tasks are counted by
+         --  the binder separately.
          "-Mapp_main");
          --  Set the binder generated main function's name to app_main as this
          --  is required by the SDK.
