@@ -21,7 +21,17 @@ jobs:
         alr -C crates/a0b-tools --non-interactive with --solve
         alr -C crates/a0b-tools build
     - name: Build application and run it
+      shell: bash
       run: |
-        . $IDF_PATH/export.sh
+        set -eo pipefail
+        . "$IDF_PATH/export.sh"
         idf.py set-target esp32s3
-        idf.py qemu --qemu-extra-args --no-reboot
+        idf.py build
+        idf.py build
+        rm .objs/app_main.o
+        idf.py build
+        idf.py clean
+        idf.py build
+        idf.py qemu --qemu-extra-args --no-reboot 2>&1 | tee qemu.log
+        grep -F "Hello, Ada world!" qemu.log
+        grep -F "Restarting..." qemu.log
