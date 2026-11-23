@@ -33,7 +33,7 @@ For an existing clone, initialize missing dependencies with
 `git submodule update --init --recursive` before building the tools.
 
 Use `idf.py build` to build the complete application. The firmware outputs are
-`build/hello_world.elf` and `build/hello_world.bin`.
+`build/esp32s3_application.elf` and `build/esp32s3_application.bin`.
 
 The example prints `Hello, Ada world!` and restarts after one second. With the
 ESP-IDF QEMU tools installed, run it without a board:
@@ -54,8 +54,12 @@ idf.py qemu --qemu-extra-args --no-reboot
 ## Configuration
 
 `sdkconfig.defaults` selects ESP32-S3, C++ exceptions for Ada unwinding, Newlib
-and two FreeRTOS TLS slots. Other settings use SDK defaults. Existing values in
-`sdkconfig` take precedence; use `idf.py menuconfig` to review them.
+and two FreeRTOS TLS slots. The Ada ATCB uses slot 1 by default, selected by
+`CONFIG_GNAT_RUNTIME_ATCB_TLS_SLOT`; slot 0 belongs to pthread. If another
+component needs slot 1, select an unused Ada slot and make
+`CONFIG_FREERTOS_THREAD_LOCAL_STORAGE_POINTERS` greater than that index.
+Other settings use SDK defaults. Existing values in `sdkconfig` take precedence;
+use `idf.py menuconfig` to review them.
 
 Secondary stacks are statically allocated. The binder switch `-D4k` fixes their
 size at 4 KiB. `-Q3` is the minimum for ESP32-S3: one secondary stack for the
@@ -64,8 +68,8 @@ foreign thread needing a secondary stack over the application lifetime; those
 stacks are not recycled. Ordinary Ada tasks are counted separately by the binder.
 
 When enabling `-fstack-check`, size each primary stack executing instrumented
-code to at least its SDK default plus 12 KiB, with additional space as required
-by the application. This includes task and ISR stacks as applicable.
+code for its application workload plus 12 KiB for the compiler's checking
+allowance. This includes task and ISR stacks as applicable.
 
 See the [runtime documentation](https://github.com/godunko/espidf_gnat_runtime/blob/main/README.md) for
 supported features, interrupt and callback constraints, and ABI requirements.
